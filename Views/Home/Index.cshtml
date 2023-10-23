@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <p class="display-4">Welcome to QuizApp!</p>
+    <p class="text-muted">Get started by taking a quiz or creating your own true/false quiz to stump your friends!</p>
+    <hr />
+</div>
+
+@using(Html.BeginForm()) {
+    <div class="d-flex flex-sm-column flex-lg-row justify-content-center gap-4">
+        <button class="col-sm-4 btn btn-primary h4" asp-action="Index" asp-controller="Quiz">
+            <i class="fas fa-clipboard mr-2"></i>
+            Take Quiz
+        </button>
+        <button class="col-sm-4 btn btn-dark h4" asp-action="CreateQuiz" asp-controller="Quiz" asp-route-quizName="New Quiz">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Create Quiz
+        </button>
+    </div>
+}

@@ -1,0 +1,81 @@
+﻿@using(Html.BeginForm())
+{
+    var questionResponses = new Dictionary<int, bool>();
+    if (ViewData["questionResponses"] != null)
+    {
+        questionResponses = ViewData["questionResponses"] as Dictionary<int, bool>;
+    }
+
+    @if(Model == null)
+    {
+        <div class="alert alert-danger">
+            <h4>No quiz found with this id.</h4>
+        </div>
+    } else {
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4>@Model.Name</h4>
+                </div>
+            </div>
+            <ol>
+                @foreach(Question question in Model.Questions)
+                {
+                    <li>
+                        @question.Text
+
+                        @if(ViewData.ContainsKey("questionResponses")) {
+                            <div class="mt-4">
+                                <div><b>Correct Answer: </b> @question.Answer</div>
+                                @if (questionResponses != null && questionResponses.ContainsKey(question.QuestionId))
+                                {
+                                    @if (questionResponses[question.QuestionId] == true)
+                                    {
+                                        <div><b>Answered: </b> @question.Answer</div>
+                                        <div class="text-success">
+                                            <i class="fas fa-check-circle mr-2"></i> Correct
+                                        </div>
+                                    } else
+                                    {
+                                        <div><b>Answered: </b> @(!question.Answer)</div>
+                                        <div class="text-danger">
+                                            <i class="fas fa-times-circle mr-2"></i> Wrong
+                                        </div>
+                                    }
+                                } else {
+                                    <div class="text-dark">
+                                        <i class="fas fa-times-circle mr-2"></i> Unattempted
+                                    </div>
+                                }
+                            </div>
+                        } else
+                        {
+                            <div class="mt-2">
+                                <div class="btn-group">
+                                    <input type="radio" class="btn-check" name="question[@question.QuestionId]" id="btnradio-@question.QuestionId-1" autocomplete="off">
+                                    <label class="btn btn-outline-dark" for="btnradio-@question.QuestionId-1">True</label>
+
+                                    <input type="radio" class="btn-check" name="question[@question.QuestionId]" id="btnradio-@question.QuestionId-2" autocomplete="off" value="off">
+                                    <label class="btn btn-outline-dark" for="btnradio-@question.QuestionId-2">False</label>
+                                </div>
+                            </div>
+                        }
+                    </li>
+                }
+            </ol>
+            <div class="card-footer text-center">
+                @if (ViewData.ContainsKey("questionResponses"))
+                {
+                    <button class="btn btn-primary" asp-action="TakeQuiz" asp-route-quizId="@Model.QuizId" asp-route-checkAnswers="@false">
+                        Retake Quiz
+                    </button>
+                } else
+                {
+                    <button class="btn btn-primary" asp-action="TakeQuiz" asp-route-quizId="@Model.QuizId" asp-route-checkAnswers="@true">
+                        Submit Quiz
+                    </button>
+                }
+            </div>
+        </div>
+    }
+}

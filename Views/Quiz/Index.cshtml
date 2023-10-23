@@ -1,0 +1,30 @@
+﻿
+<h2>My Quizzes</h2>
+@using(Html.BeginForm()) {
+    <button class="btn btn-primary mt-2" asp-action="CreateQuiz" asp-route-quizName="New Quiz">
+        <i class="fas fa-plus-circle mr-2"></i>
+        Add Quiz
+    </button>
+    <div class="list-group mt-4">
+        @foreach(Quiz quiz in Model)
+        {
+            <div class="list-group-item">
+                <h4>@quiz.Name</h4>
+                <div class="mt-2">
+                    <button class="btn btn-primary" asp-method="Get" asp-action="TakeQuiz" asp-route-quizId="@quiz.QuizId">
+                        <i class="fas fa-clipboard mr-2"></i>
+                        Take Quiz
+                    </button>
+                    <button class="btn btn-dark" asp-action="Delete" asp-route-quizId="@quiz.QuizId">
+                        <i class="fas fa-pencil-alt mr-2"></i>
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" asp-action="DeleteQuiz" asp-route-quizId="@quiz.QuizId">
+                        <i class="fas fa-trash mr-2"></i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
